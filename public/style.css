@@ -1,0 +1,421 @@
+
+body {
+    width: 100vw;
+    height: 90vh;
+    overflow:hidden;
+    margin: 0px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background-image: url('bg.jpg');
+    background-color: black;
+    background-repeat: no-repeat; /* Optional: Prevents tiling */
+    background-size: cover; /* Optional: Ensures the image covers the entire element */
+    background-position: center; /* Optional: Centers the image */
+    background-blend-mode:normal
+  }
+
+input{
+    background-color: #fffffff3;
+    border: 1px solid pink;
+    color: #000000;
+}
+#menu{
+    height: 10vh;
+    width: 100vw;
+    overflow: hidden;
+    display:flexbox;
+ }
+
+ .sqlinjectButtons {
+    z-index: 0;
+    visibility: hidden;
+    position: absolute;
+    top: 500px;
+    margin-top: 0px;
+    left: 20px;
+    
+    /* Removes browser styling */
+    appearance: none;
+    border: none;
+    font-size: inherit;
+    
+    /* Units scale with font-size */
+    
+    padding: 0.75em 1em;
+    
+    background: rgb(118, 82, 15);
+    color: white;
+    
+    /* Flexbox setup to center the text */
+    display: flex;
+    justify-content: center; /* Horizontally center the text */
+    align-items: center; /* Vertically center the text */
+    
+    width: 427px; /* Width of the button */
+    cursor: wait;
+}
+
+.spinner {
+	--size: 1.25em;
+	--offset-r: calc(var(--size) * -1);
+	--offset-l: 0;
+	--opacity: 0;
+	
+	position: relative;
+	display: inline-flex;
+	
+	height: var(--size);
+	width: var(--size);
+	
+	margin-top: calc(var(--size) * -0.5);
+	margin-right: var(--offset-r);
+	margin-bottom: calc(var(--size) * -0.5);
+	margin-left: var(--offset-l);
+	
+	box-sizing: border-box;
+	border: 0.125em solid rgba(white, 0.333);
+	border-top-color: white;
+	
+	border-radius: 50%;
+	opacity: var(--opacity);
+	
+	transition: 0.25s;
+}
+
+/* // Reveal spinner and animate */
+.sqlinjectButtons {
+	&:active .spinner,
+	&:focus .spinner,
+	&:hover .spinner {
+		--width: 1em;
+		--offset-r: 0.333em;
+		--offset-l: -0.333em;
+		--opacity: 1;
+		
+		animation: 0.666s load infinite;
+		
+		@keyframes load {
+			to {
+				transform: rotate(360deg);
+			}
+		}
+	}
+}
+
+#deleteButton{
+    position: absolute;
+    top: 500px;
+    visibility: hidden;
+    background-color: #4a1937;
+    color: #FFFFFF;
+}
+
+
+/* https://codepen.io/natalia-reshetnikova/pen/oRRjPP/  */
+div[class*=box] {
+    height: 100%;
+    width: 100%; 
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    font-size: 2vw;
+    overflow: hidden;
+ }
+
+ .infoAndSearch{
+    position: relative;
+    left: 50px;
+    display:table-cell;
+    width: 100vw;
+    height: 10vh;
+    overflow:auto;
+    margin-left: 25px;
+}
+
+ .infoAndSearch h2 {
+    height: 1vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 12px; /* Example size, adjust as needed */
+    font-weight: bold; /* Example weight, adjust as needed */
+    color: #333; /* Example color, adjust as needed */
+    margin-top: 10px; /* Example margin, adjust as needed */
+}
+
+.infoAndSearch hr {
+    position: relative;
+    left: -10px;
+}
+
+.queryOutput {
+    visibility: hidden;
+    margin-left: 20px;
+    z-index: 0;
+    position: relative; /* Define positioning context */
+    color: #ffffff;
+    font-family: monospace;
+    align-self: flex-end;
+    left: 10px;
+    top: 10px;
+    width: 25vw;
+    height: 70vh;
+    overflow: auto;
+    font-family: monospace;
+    font-size: 13px;
+    background: linear-gradient(
+        to top, 
+        rgba(227, 2, 204, 0.23) 50%, /* Start fully visible */
+        rgba(255, 255, 255, 0) 100% /* Fade to transparent */
+    );
+    border-radius: 10px;
+    overflow-x: hidden;
+}
+.queryOutput div{
+    margin-left: 20px;
+   
+}
+.queryOutput strong{
+    color: #f8d2fc;
+}
+
+.box-3 { background: linear-gradient(
+    to bottom, 
+    rgba(23, 74, 8, 0.147) 100%, /* Start fully visible */
+    rgba(236, 12, 180, 0) 20% /* Fade to transparent */
+);}
+
+.btn-three {
+	color: #FFF;
+	transition: all 0.5s;
+	position: relative;
+    margin-right: 20px;
+    margin: 10px;
+    left: 40px;
+}
+
+.btn-three:hover::before {
+	opacity: 0 ;
+	transform: scale(0.5,0.5);
+}
+.btn-three::after {
+	content: '';
+	position: absolute;
+	top: 0px;
+	left: -10px;
+	width: 115%;
+	height: 100%;
+	z-index: 1;
+	opacity: 0;
+    border-radius: 10px;
+	transition: all 0.3s;
+	border: 1px solid rgba(255, 255, 255, 0.59);
+	transform: scale(1.2,1.2);
+}
+.btn-three:hover::after {
+	opacity: 1;
+	transform: scale(1,1);
+}
+.updateButtons {
+    visibility: hidden;
+    position: absolute;
+    display:inline-flex;
+    gap: 20px;
+    left: 520px;
+    top: -20px;
+}
+
+#inventoryInputs{
+    visibility: hidden;
+}
+#vertical-divider{
+    z-index: 0;
+    position: absolute;
+    background-color: #333;
+    bottom: 0vh;
+    height: 90vh;
+    left: 30vw;
+    width: 1px;
+    color: #333;
+    border: #333 2px;
+}
+#input-box-area{
+    position: absolute;
+    width: 50vw;
+    height: 64.5vh;
+    bottom: 17vh;
+    left: 30.75vw;
+}
+#resultsArea{
+    display: inline-flex;
+    position: relative;
+    margin-top: 12vh;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: medium;
+    color: rgb(255, 255, 255);
+    width: 426px;
+    height: 500px;
+    left: 20px;
+    top: -80px;
+    background-color: #b87a08b9;
+    background: linear-gradient(
+        to top, 
+        #b87a0861 100%, /* Start fully visible */
+        #b87a0800 50% /* Fade to transparent */
+    );
+    border-radius: 10px;
+}
+#resultsArea label {
+    display: flex;
+    position: relative;
+    flex-direction: column;  /* Stack label and input vertically */
+    margin-bottom: 5px;  /* Optional: space between label and input */
+    overflow: hidden;
+    margin-left: 5px;
+}
+#resultsArea textarea {
+    position: relative;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    gap: 10px;  /* Add some space between each field */
+    background-color: #336af59d; /* Change to desired background color */
+    color: #333333; /* Change to desired text color */
+    border: 1px solid #000000; /* Optional: Adjust border styling */
+    padding: 10px; /* Optional: Add some padding inside the textarea */
+    box-shadow: 8px rgba(0, 0, 0, 0.2); /* Adjust values as needed */
+}
+#resultsArea input,
+#resultsArea div {
+    width: 90%;  /* Make inputs and divs stretch to fill available width */
+    padding: 15px;  /* Add some padding for aesthetics */
+    margin-top: 5px;  /* Space above inputs */
+    margin-left: 5px;
+}
+#resultsArea strong {
+    color: #ffffff;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3); /* Adjust the values as needed */
+}
+
+#OrderresultsArea{
+    visibility: hidden;
+    display:inline-table;
+    position: absolute;
+    margin-top: 12vh;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: small;
+    color: rgb(0, 0, 0);
+    width: 410px;
+    height: 500px;
+    left: 20px;
+    top: -80px;
+    background-color: #a9eebbd8;
+    background: linear-gradient(
+        to top, 
+        #a9dfee 50%, /* Start fully visible */
+        #a9eebbaf 100% /* Fade to transparent */
+    );
+    border-radius: 10px;
+    padding-left: 20px;
+    box-shadow: 8px rgba(0, 0, 0, 0.2); /* Adjust values as needed */
+}
+#monthlyReportArea{
+    visibility: hidden;
+    display:inline-table;
+    position: absolute;
+    margin-top: 12vh;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: small;
+    color: rgb(255, 255, 255);
+    width: 810px;
+    height: 500px;
+    left: 20px;
+    top: -80px;
+    background-color: #f7e708d8;
+    background: linear-gradient(
+        to top, 
+        #130011c2 50%, /* Start fully visible */
+        #000000cd 100% /* Fade to transparent */
+    );
+    border-radius: 10px;
+    padding-left: 20px;
+}
+.container{
+    color:#fce95d;
+    font-family:monospace;
+    align-content: center;
+    align-items: center;
+}
+.container strong:nth-child(odd){
+    color: #ecdfed;
+    
+}
+.editable-field {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+label strong {
+    margin-bottom: 5px;  /* Optional: space between the label and the field */
+}
+hr {
+    border-top: 1px rgb(0, 0, 0);
+    width: 100%;
+    
+}
+li {
+    list-style-type:none;
+}
+.find-inventory-label {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2rem;
+    margin-left: 2rem;
+    margin-top: 0.7rem;
+    color: #000000;
+    display: block;
+}
+.find-inventory-input {
+    position: absolute;
+    left: 20px;
+    top: -40px;
+    font-family: 'Roboto', sans-serif;
+    color: #ffffff;
+    font-size: 1rem;
+      margin: 0 auto;
+    padding: 1rem 1.5rem;
+    border-radius: 0.2rem;
+    background-color: rgba(25, 69, 32, 0.418);
+    border-radius: 10px;
+    width: 370px;
+    display: block;
+    border: 0.3rem solid transparent;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Adjust values as needed */
+}
+#order_search {
+    visibility: hidden;
+    background-color: #077dbc82;
+    color: #FFFFFF;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Adjust values as needed */
+}
+#order_search::placeholder{
+    color: #ffffffbf;
+}
+#remove_search {
+    visibility: hidden;
+    background-color: #4a1937;
+    color: rgb(255, 255, 255);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Adjust values as needed */
+}
+#inventory-line{
+    color: black;
+    visibility: hidden;
+    position: relative;
+    left: -637px;
+    width: 530px;
+}
+#count-line{
+    color: black;
+    visibility: hidden;
+    position: relative;
+    left: -637px;
+    width: 530px;
+}

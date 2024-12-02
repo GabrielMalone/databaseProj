@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Database Management System</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+  <!-- Left side -->
+    <section id="menu">
+      <div class="box-3">
+          <div class="btn btn-three" id="inventory_button" onclick="show_table_data('Inventory')"><span>Inventory</span></div>
+          <div class="btn btn-three" id="orders_button" onclick="show_table_data('Order')"><span>Orders</span></div>
+          <div class="btn btn-three" id="customers_button" onclick="show_table_data('Customer')"><span>Customers</span></div>
+          <div class="btn btn-three" id="suppliers_button" onclick="show_table_data('Supplier')"><span>Suppliers</span></div>
+          <div class="btn btn-three" id="contacts_button" onclick="show_table_data('Contact')"><span>Contacts</span></div>
+          <div class="btn btn-three" id="monthly_button" onclick="show_report()"><span>Monthly Report</span></div>
+      </div>
+    </section>
+    <div class="infoAndSearch">
+      <h2 id ="uniqueCount"></h2>
+      <h2 id ="totalNumber"></h2>
+    </div>
+    <section id="output">
+      <div class="queryOutput">
+        <div id="inventory-list"></div>
+        <div id="order-list"></div>
+        <div id="customer-list"></div>
+        <div id="supplier-list"></div>
+        <div id="contact-list"></div>
+      </div>
+    </section>
+    <section id="inventoryInputs">
+      <!-- <div id="vertical-divider"></div> -->
+      <div id="input-box-area">
+        <input class="find-inventory-input" id="update_search" type="text" placeholder="Search for inventory by ID or Description / Enter">
+        <input class="find-inventory-input" id="remove_search" type="text" placeholder="Remove Inventory by ID">
+        <input class="find-inventory-input" id="order_search" type="text" placeholder="Lookup Order info by Order ID">
+        <div id="resultsArea"></div>
+        <div id="OrderresultsArea"></div>
+        <div id="monthlyReportArea"></div>
+        <button class="sqlinjectButtons" id="submitButton" onclick="updateInventory()">Update Inventory</button>
+        <button class="sqlinjectButtons" id="insertButton" onclick="inventoryInsertQuery()">Create Inventory</button>
+        <button class="sqlinjectButtons" id="deleteButton" onclick="finalDelete()">CONFIRM DELETE</button>
+        <div class="updateButtons">
+          <div id="addInventoryMenuButton" onclick="insertInventory()">Add Inventory</div>
+          <div>|</div>
+          <div id="removeInventoryMenuButton" onclick="removeInventory()">Remove Inventory</div>
+        </div>
+      </div>
+    </section>
+    <script src="index.js"></script>
+  </body>
+</html>
