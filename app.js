@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 
 // CORS configuration
 app.use(cors({
-    origin: ['https://databaseproj.onrender.com', 'http://localhost:3000', 'https://database-proj-git-main-gabrielmalones-projects.vercel.app'],
+    origin: ['https://databaseproj.onrender.com', 'http://localhost:3000', 'https://database-proj-git-main-gabrielmalones-projects.vercel.app', 'https://database-proj-7kgmzms59-gabrielmalones-projects.vercel.app],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
