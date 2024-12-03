@@ -34,7 +34,7 @@ const db = mysql.createPool({
     database: 'defaultdb',
     port: 27024,
     ssl: {
-        ca: fs.readFileSync('cert.pem'),  // Ensure the CA certificate path is correct
+        ca: Buffer.from(process.env.MYSQL_SSL_CERT, 'utf-8'),
         rejectUnauthorized: true,  // Ensure SSL is verified
     },
 });
