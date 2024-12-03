@@ -27,15 +27,15 @@ app.use(express.json());
 app.use(express.static('public'));
 
 const db = mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    port: process.env.DB_PORT,
-    // ssl: {
-    //     ca: fs.readFileSync(process.env.MYSQL_SSL_CERT),
-    //     rejectUnauthorized: true
-    // }
+    host: 'mysql-152fdd39-database205.f.aivencloud.com',
+    user: 'avnadmin',
+    password: 'AVNS_Kw4b7pqVvY1n2g_MjVn',
+    database: 'defaultdb',
+    port: 27024,
+    ssl: {
+        ca: fs.readFileSync('cert.pem'),  // The CA cert must be correctly specified
+        rejectUnauthorized: true,  // Ensure SSL is verified
+    }
 });
 
 // Test the database connection
