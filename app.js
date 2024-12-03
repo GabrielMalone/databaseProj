@@ -31,7 +31,7 @@ db.getConnection((err, connection) => {
 });
 
 // Dynamic query endpoint
-app.post('/api/query', (req, res) => {
+app.post('https://databaseproj.onrender.com/api/query', (req, res) => {
     const { query, values } = req.body;
 
     // Validate that the query exists
