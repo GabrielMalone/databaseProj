@@ -2,13 +2,11 @@
 const express = require('express');
 const mysql = require('mysql2');
 const app = express();
-const fs = require('fs');  // Add this line to include the fs module
 const cors = require('cors');
 
 // Use CORS middleware
 app.use(cors({
-    origin: ['*', 'https://databaseproj.onrender.com', 'http://localhost:5501', 'http://127.0.0.1:5501','http://localhost:3000',
-'https://latin-r3z3.onrender.com','https://latin-1.onrender.com','https://latinreader.app', 'https://www.latinreader.app'],
+    origin: ['*'],
     methods: 'GET,POST,PUT,DELETE',
     allowedHeaders: 'Content-Type'
 }));
