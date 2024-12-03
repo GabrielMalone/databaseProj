@@ -2,8 +2,9 @@
 const express = require('express');
 const mysql = require('mysql2');
 const app = express();
+const fs = require('fs');  // Add this line to include the fs module
 const cors = require('cors');
-app.use(cors());
+
 
 app.use(cors({
     origin: 'https://render.com'  // Replace with your frontend's domain
@@ -39,7 +40,7 @@ db.getConnection((err, connection) => {
 app.post('/api/query', (req, res) => {
     const { query, values } = req.body;
     console.log('Received query:', req.body);  // Log the incoming request data
-    res.status(200).send({ message: 'Query received' });  
+  
     // Validate that the query exists
     if (!query) {
         return res.status(400).send('Query not provided.');
@@ -51,7 +52,7 @@ app.post('/api/query', (req, res) => {
             return res.status(500).send('Database error');
         }
         res.setHeader('Content-Type', 'application/json'); 
-        res.json(results); // Send the query results
+        res.json({ data: results }); 
     });
 });
 
