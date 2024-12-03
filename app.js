@@ -47,9 +47,9 @@ const db = mysql.createPool({
     password: 'AVNS_Kw4b7pqVvY1n2g_MjVn',                  // Database password
     database: 'defaultdb',                                 // Database name
     port: 27024,                                           // Database port
-    ssl: {
-        ca: caCert,  // Specify the CA certificate for SSL
-        rejectUnauthorized: true,  // Ensures SSL verification
+    // ssl: {
+    //     ca: caCert,  // Specify the CA certificate for SSL
+    //     rejectUnauthorized: true,  // Ensures SSL verification
     }
 });
 // Test the connection
