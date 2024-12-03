@@ -38,7 +38,8 @@ db.getConnection((err, connection) => {
 // Dynamic query endpoint
 app.post('/api/query', (req, res) => {
     const { query, values } = req.body;
-
+    console.log('Received query:', req.body);  // Log the incoming request data
+    res.status(200).send({ message: 'Query received' });  
     // Validate that the query exists
     if (!query) {
         return res.status(400).send('Query not provided.');
