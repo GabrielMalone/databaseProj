@@ -8,7 +8,7 @@ const fs = require('fs');
 app.use(cors({
     origin: ['https://databaseproj.onrender.com','http://localhost:3000'],  // Replace with your frontend's domain
     methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,  // If you're using cookies or credentials
 }));
 
