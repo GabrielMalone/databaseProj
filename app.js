@@ -2,7 +2,12 @@
 const express = require('express');
 const mysql = require('mysql2');
 const app = express();
+const cors = require('cors');
+app.use(cors());
 
+app.use(cors({
+    origin: 'https://render.com'  // Replace with your frontend's domain
+}));
 // Serve static files from the "public" directory
 app.use(express.static('public'));
 app.use(express.json());
