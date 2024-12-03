@@ -6,7 +6,7 @@ const app = express();
 
 // CORS configuration for all incoming requests
 const corsOptions = {
-    origin: ['https://databaseproj.onrender.com', 'http://localhost:3000'], // Specify exact origins
+    origin: ['https://databaseproj.onrender.com', 'http://localhost:3000', 'https://database-proj-rho.vercel.app'], // Specify exact origins
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,  // Allow cookies and credentials
