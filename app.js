@@ -4,14 +4,28 @@ const mysql = require('mysql2');
 const app = express();
 const cors = require('cors');
 
-// Use CORS middleware
-app.use(cors({
-    origin: '*',
-    methods: 'GET,POST,PUT,DELETE',
-    allowedHeaders: 'Content-Type'
-}));
+const allowedOrigins = [
+    'https://databaseproj.onrender.com',
+    'http://localhost:3000', // Local development
+    'https://latin-r3z3.onrender.com',
+    'https://latin-1.onrender.com',
+    'https://latinreader.app',
+    'https://www.latinreader.app'
+];
 
-app.options('*', cors());
+app.use(cors({
+    origin: (origin, callback) => {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    methods: 'GET,POST,PUT,DELETE',
+    allowedHeaders: 'Content-Type,Authorization', // Allow Authorization header if needed
+    credentials: true // Allow cookies if needed (for example in sessions)
+}));
 
 // Serve static files from the "public" directory
 app.use(express.static('public'));
