@@ -18,7 +18,7 @@ let OrderResultsArea = document.getElementById('OrderresultsArea');
 let InventoryResultsArea = document.getElementById('resultsArea');
 let monthlyReportArea = document.getElementById('monthlyReportArea');
 let monthlyButton = document.getElementById('monthly_button');
-let fetchAddress = `https://database-proj-rho.vercel.app/api/query`;
+let fetchAddress = `https://database-proj-git-main-gabrielmalones-projects.vercel.app/api/query`;
 // https://databaseproj.onrender.com/
 let elementsList = [
     submitButton,
