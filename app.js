@@ -13,8 +13,7 @@ app.use(cors({
 app.use(express.static('public'));
 app.use(express.json());
 // Read the CA certificate if required (you can specify the file path)
-const caCert = `-----BEGIN CERTIFICATE-----
-MIIEQTCCAqmgAwIBAgIUdIwTz+w6PVlwqwYIk6aUItwVxq4wDQYJKoZIhvcNAQEM
+const caCert = `MIIEQTCCAqmgAwIBAgIUdIwTz+w6PVlwqwYIk6aUItwVxq4wDQYJKoZIhvcNAQEM
 BQAwOjE4MDYGA1UEAwwvMDY5ZmI0MDUtZGJiOC00MzQ4LWE0MDAtYTE0MDg3OTkz
 Zjk2IFByb2plY3QgQ0EwHhcNMjQxMjAyMjMyMTU2WhcNMzQxMTMwMjMyMTU2WjA6
 MTgwNgYDVQQDDC8wNjlmYjQwNS1kYmI4LTQzNDgtYTQwMC1hMTQwODc5OTNmOTYg
@@ -36,8 +35,7 @@ O/ewO23LllbJJyEfHHI5GjMbwRhoFP+aVSJPxmM6KJLn2uFKqnrsKQtBxIQF9TVp
 ARVfSMR7MKmFol2BvAXk1dcjzN0RTf6MAuTne2q3PGjkE5X82M4IIrhjYPZvYAga
 PEorSTjaMf5Q+SnUCAQOmsujp19S/rd74ZKIFOzrwYHEl6hjlmEoKsgG0+m8uU8T
 bTRdeiFICaoXFCTjTzNJ4dRi/YhAbYUWk1YWoQ7UCJNfcGrcK/TB3om/b9LuSITj
-fksCwqa252SE4oImvtzbSgXADP6PIJWo7dRNV7gx+AfbOgegjw==
------END CERTIFICATE-----`;  // Adjust with your CA cert path
+fksCwqa252SE4oImvtzbSgXADP6PIJWo7dRNV7gx+AfbOgegjw`;  // Adjust with your CA cert path
 // Create a connection pool (better for multiple queries)
 const db = mysql.createPool({
     host: 'mysql-152fdd39-database205.f.aivencloud.com',   // Database host
