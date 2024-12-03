@@ -1,35 +1,25 @@
-// Import the MySQL module
 const express = require('express');
 const mysql = require('mysql2');
-const app = express();
 const cors = require('cors');
+const app = express();
 
-const allowedOrigins = [
-    'https://databaseproj.onrender.com',
-    'http://localhost:3000', // Local development
-    'https://latin-r3z3.onrender.com',
-    'https://latin-1.onrender.com',
-    'https://latinreader.app',
-    'https://www.latinreader.app'
-];
-
+// CORS configuration for all incoming requests
 app.use(cors({
-    origin: (origin, callback) => {
-        // Allow requests with no origin (like mobile apps or curl requests)
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    methods: 'GET,POST,PUT,DELETE',
-    allowedHeaders: 'Content-Type,Authorization', // Allow Authorization header if needed
-    credentials: true // Allow cookies if needed (for example in sessions)
+    origin: ['https://databaseproj.onrender.com','http://localhost:3000'],  // Replace with your frontend's domain
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type'],
+    credentials: true,  // If you're using cookies or credentials
 }));
 
-// Serve static files from the "public" directory
+
+// Handle OPTIONS preflight requests for the API
+app.options('/api/query', cors());  // This will allow OPTIONS requests for /api/query
+app.options('*', cors()); 
 app.use(express.static('public'));
 app.use(express.json());
+
+// Read the CA certificate if required (you can specify the file path)
+// const caCert = fs.readFileSync('path/to/ca-certificate.pem');  // Adjust with your CA cert path
 
 // Create a connection pool (better for multiple queries)
 const db = mysql.createPool({
@@ -41,7 +31,7 @@ const db = mysql.createPool({
     // ssl: {
     //     ca: caCert,  // Specify the CA certificate for SSL
     //     rejectUnauthorized: true,  // Ensures SSL verification
-    //}
+    // }
 });
 
 // Test the connection
@@ -58,11 +48,12 @@ db.getConnection((err, connection) => {
 app.post('/api/query', (req, res) => {
     const { query, values } = req.body;
     console.log('Received query:', req.body);  // Log the incoming request data
-  
+
     // Validate that the query exists
     if (!query) {
         return res.status(400).send('Query not provided.');
     }
+
     // Execute the query
     db.query(query, values, (err, results) => {
         if (err) {
@@ -70,11 +61,12 @@ app.post('/api/query', (req, res) => {
             return res.status(500).send('Database error');
         }
         res.setHeader('Content-Type', 'application/json'); 
-        res.json(results); 
+        res.json(results);  // Send the query results in a structured object
     });
 });
 
+// Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`Server running at http://localhost:${PORT}/`);
 });
