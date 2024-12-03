@@ -32,10 +32,10 @@ const db = mysql.createPool({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     port: process.env.DB_PORT,
-    ssl: {
-        ca: fs.readFileSync(process.env.MYSQL_SSL_CERT),
-        rejectUnauthorized: true
-    }
+    // ssl: {
+    //     ca: fs.readFileSync(process.env.MYSQL_SSL_CERT),
+    //     rejectUnauthorized: true
+    // }
 });
 
 // Test the database connection
