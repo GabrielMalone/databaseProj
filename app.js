@@ -2,30 +2,25 @@ const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
 const fs = require('fs');
+
 const app = express();
 
-// CORS configuration for all incoming requests
-const corsOptions = {
-    origin: ['https://databaseproj.onrender.com', 'http://localhost:3000', 'https://database-proj-rho.vercel.app'], // Specify exact origins
-    methods: ['GET', 'POST', 'OPTIONS'],
+// Server port configuration
+const PORT = process.env.PORT || 3000;
+
+// CORS configuration
+app.use(cors({
+    origin: ['https://databaseproj.onrender.com', 'http://localhost:3000'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,  // Allow cookies and credentials
-};
+    credentials: true,
+}));
 
-// Apply CORS globally
-app.use(cors(corsOptions));
-
-// Handle OPTIONS preflight requests for /api/query
-app.options('/api/query', cors(corsOptions));  // Allow OPTIONS requests for /api/query
-// Optionally, you can handle other OPTIONS requests globally (for all routes)
-app.options('*', cors(corsOptions));
-
-// Middleware to parse JSON requests
+// Middleware to parse JSON and serve static files
 app.use(express.json());
-
-// Static file serving (if needed)
 app.use(express.static('public'));
 
+// MySQL connection pool configuration
 const db = mysql.createPool({
     host: 'mysql-152fdd39-database205.f.aivencloud.com',
     user: 'avnadmin',
@@ -33,48 +28,54 @@ const db = mysql.createPool({
     database: 'defaultdb',
     port: 27024,
     ssl: {
-        ca: fs.readFileSync('cert.pem'),  // The CA cert must be correctly specified
-        rejectUnauthorized: true,  // Ensure SSL is verified
-    }
+        ca: fs.readFileSync('cert.pem'),
+        rejectUnauthorized: true, // Enforce SSL verification
+    },
 });
 
-// Test the database connection
+// Test MySQL connection
 db.getConnection((err, connection) => {
     if (err) {
         console.error('Error connecting to the database:', err);
         return;
     }
     console.log('Connected to MySQL database!');
-    connection.release(); // Release the connection back to the pool
+    connection.release(); // Release connection back to the pool
 });
 
-// Dynamic query endpoint
+// Preflight handling for CORS
+app.options('*', (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.sendStatus(204); // No content
+});
+
+// API endpoint to handle dynamic queries
 app.post('/api/query', (req, res) => {
     const { query, values } = req.body;
-    console.log('Received query:', req.body);  // Log the incoming request data
 
-    // Validate that the query exists
+    // Input validation
     if (!query) {
-        return res.status(400).send('Query not provided.');
+        return res.status(400).json({ error: 'Query not provided.' });
     }
+
+    console.log('Executing query:', query, values); // Debugging log
 
     // Execute the query
     db.query(query, values, (err, results) => {
         if (err) {
-            console.error('Query error:', err);
-            return res.status(500).send('Database error');
+            console.error('Database query error:', err);
+            return res.status(500).json({ error: 'Database error.' });
         }
 
-        // Log headers to check if CORS headers are set
-        console.log('Response Headers:', res.getHeaders());
-
-        res.setHeader('Content-Type', 'application/json'); 
-        res.json(results);  // Send the query results in a structured object
+        // Send query results
+        res.json(results);
     });
 });
 
 // Start the server
-const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}/`);
 });
