@@ -5,10 +5,16 @@ const app = express();
 const fs = require('fs');  // Add this line to include the fs module
 const cors = require('cors');
 
-
+// Use CORS middleware
 app.use(cors({
-    origin: 'https://render.com'  // Replace with your frontend's domain
+    origin: ['*', 'https://databaseproj.onrender.com', 'http://localhost:5501', 'http://127.0.0.1:5501','http://localhost:3000',
+'https://latin-r3z3.onrender.com','https://latin-1.onrender.com','https://latinreader.app', 'https://www.latinreader.app'],
+    methods: 'GET,POST,PUT,DELETE',
+    allowedHeaders: 'Content-Type'
 }));
+
+app.options('*', cors());
+
 // Serve static files from the "public" directory
 app.use(express.static('public'));
 app.use(express.json());
