@@ -100,7 +100,7 @@ function show_table_data(tableName) {
         values: []  // No parameters needed for this query, so an empty array
     };
     // Send the query to the server
-    fetch('https://databaseproj.onrender.com/api/query/api/query', {
+    fetch('https://databaseproj.onrender.com/api/query', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -144,7 +144,7 @@ function summary(tableName){
         values: []  // No parameters needed for this query, so an empty array
     };
     // Send the query to the server
-    fetch('https://databaseproj.onrender.com/api/query/api/query', {
+    fetch('https://databaseproj.onrender.com/api/query', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -172,7 +172,7 @@ function totalStock(tableName){
         values: []  // No parameters needed for this query, so an empty array
     };
     // Send the query to the server
-    fetch('https://databaseproj.onrender.com/api/query/api/query', {
+    fetch('https://databaseproj.onrender.com/api/query', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -207,7 +207,7 @@ function inventory_search(){
 //---------------------------------------------------------------------------------------------------------------
 function inventory_search_query(customQuery){
     InventoryResultsArea.style.visibility = 'visible';
-    fetch('https://databaseproj.onrender.com/api/query/api/query', {
+    fetch('https://databaseproj.onrender.com/api/query', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -268,7 +268,7 @@ function updateInventory(){
                 WHERE InventoryID = ?`,  
         values: [description, price, quantStock, formattedDate, id]  // Use values as parameters
     };
-    fetch('https://databaseproj.onrender.com/api/query/api/query', {
+    fetch('https://databaseproj.onrender.com/api/query', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -327,7 +327,7 @@ function inventoryInsertQuery(){
         query: `INSERT INTO Inventory (Description, Price, QuantStock, dateStocked) VALUES (?, ?, ?, ?)`,
         values: [description, price, quantStock, formattedDate]  // Use values as parameters
     };
-    fetch('https://databaseproj.onrender.com/api/query/api/query', {
+    fetch('https://databaseproj.onrender.com/api/query', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -357,7 +357,7 @@ function removeInventory(){
         query: `SELECT * FROM mydb.Inventory WHERE InventoryID = ${remove_data}`,  // Query for the inventory table
         values: []  // No parameters needed for this query, so an empty array
     };
-    fetch('https://databaseproj.onrender.com/api/query/api/query', {
+    fetch('https://databaseproj.onrender.com/api/query', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -402,7 +402,7 @@ function finalDelete(){
                 `,
         values: [0, idForFinalInventoryDelete]  
     };
-    fetch('https://databaseproj.onrender.com/api/query/api/query', {
+    fetch('https://databaseproj.onrender.com/api/query', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -485,7 +485,7 @@ function order_search(){
 function order_search_query(customQuery){
     let date_shown = false;
     let name_shown = false;
-    fetch('https://databaseproj.onrender.com/api/query/api/query', {
+    fetch('https://databaseproj.onrender.com/api/query', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -766,7 +766,7 @@ function show_report(){
     //---------------------------------------------------------------------------------------------------------------
     // run  monthly report queries and display output
     //---------------------------------------------------------------------------------------------------------------
-    fetch('https://databaseproj.onrender.com/api/query/api/query', {
+    fetch('https://databaseproj.onrender.com/api/query', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
