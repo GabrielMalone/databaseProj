@@ -259,7 +259,7 @@ function updateInventory(){
     const dateStocked = document.getElementById('inv_date').value
     const formattedDate = `${dateStocked} 00:00:00`;
     const customQuery = {
-        query: `UPDATE Inventory
+        query: `UPDATE mydb.Inventory
                 SET 
                     Description = ?, 
                     Price = ?, 
@@ -324,7 +324,7 @@ function inventoryInsertQuery(){
     // now let's write the query to udpate
     const customQuery = {
         // Query for the inventory table
-        query: `INSERT INTO Inventory (Description, Price, QuantStock, dateStocked) VALUES (?, ?, ?, ?)`,
+        query: `INSERT INTO mydb.Inventory (Description, Price, QuantStock, dateStocked) VALUES (?, ?, ?, ?)`,
         values: [description, price, quantStock, formattedDate]  // Use values as parameters
     };
     fetch('https://databaseproj.onrender.com/api/query', {
@@ -394,7 +394,7 @@ function finalDelete(){
     const customQuery = {
         query: `
                 UPDATE
-                    Inventory
+                    mydb.Inventory
                 SET
                     QuantStock = ?
                 WHERE
@@ -446,13 +446,13 @@ function order_search(){
                     ohi.Quantity, 
                     FORMAT(SUM(ohi.Quantity * i.Price), 2) AS Total
                 FROM 
-                    \`Order\` AS o
+                    mydb.Order AS o
                 INNER JOIN 
-                    Order_has_Inventory AS ohi ON o.OrderID = ohi.OrderID
+                    mydb.Order_has_Inventory AS ohi ON o.OrderID = ohi.OrderID
                 INNER JOIN 
-                    Inventory AS i ON i.inventoryID = ohi.InventoryID
+                    mydb.Inventory AS i ON i.inventoryID = ohi.InventoryID
                 INNER JOIN
-                    Customer as c ON c.CustomerID = o.CustomerID
+                    mydb.Customer as c ON c.CustomerID = o.CustomerID
                 WHERE 
                     o.OrderID = ${orerID}
                 GROUP BY 
@@ -468,11 +468,11 @@ function order_search(){
                     '' AS Quantity, 
                     FORMAT(SUM(ohi.Quantity * i.Price), 2) AS Total
                 FROM 
-                    \`Order\` AS o
+                    mydb.Order AS o
                 INNER JOIN 
-                    Order_has_Inventory AS ohi ON o.OrderID = ohi.OrderID
+                    mydb.Order_has_Inventory AS ohi ON o.OrderID = ohi.OrderID
                 INNER JOIN 
-                    Inventory AS i ON i.inventoryID = ohi.InventoryID
+                    mydb.Inventory AS i ON i.inventoryID = ohi.InventoryID
                 WHERE 
                     o.OrderID = ${orerID};`,  
         values: []  
@@ -675,88 +675,88 @@ function show_report(){
             SELECT
                 -- Inventory item stocked the longest
                 (SELECT CONCAT(Description, ' (Stocked on: ', dateStocked, ')')
-                FROM Inventory 
+                FROM mydb.Inventory 
                 ORDER BY dateStocked ASC 
                 LIMIT 1) AS Longest_Stocked_Item,
 
                 -- Inventory with most items in stock
                 (SELECT CONCAT(Description, ' (Items in stock: ', QuantStock, ')')
-                FROM Inventory 
+                FROM mydb.Inventory 
                 ORDER BY QuantStock DESC 
                 LIMIT 1) AS Most_Stocked_Item,
 
                 -- Inventory with fewest items in stock
                 (SELECT CONCAT(Description, ' (Items in stock: ', QuantStock, ')')
-                FROM Inventory 
+                FROM mydb.Inventory 
                 ORDER BY QuantStock ASC 
                 LIMIT 1) AS Least_Stocked_Item,
                 
                 -- Supplier with most popular items (supplier name and item name)
                 (SELECT CONCAT(s.CompanyName, ' (Most popular item: ', i.Description, ')')
-                FROM Supplier AS s
-                INNER JOIN Inventory_and_Suppliers AS ias ON s.SupplierID = ias.SupplierID
-                INNER JOIN Inventory AS i ON i.InventoryID = ias.InventoryID
-                INNER JOIN Order_has_Inventory AS ohi ON ohi.InventoryID = i.InventoryID
+                FROM mydb.Supplier AS s
+                INNER JOIN mydb.Inventory_and_Suppliers AS ias ON s.SupplierID = ias.SupplierID
+                INNER JOIN mydb.Inventory AS i ON i.InventoryID = ias.InventoryID
+                INNER JOIN mydb.Order_has_Inventory AS ohi ON ohi.InventoryID = i.InventoryID
                 GROUP BY s.CompanyName, i.Description
                 ORDER BY COUNT(s.SupplierID) DESC 
                 LIMIT 1) AS Most_Popular_Supplier,
                 
                 -- Supplier providing unsold products
                 (SELECT CONCAT(s.CompanyName, '')
-                FROM Supplier AS s
-                LEFT JOIN Inventory_and_Suppliers AS ias ON s.SupplierID = ias.SupplierID
-                LEFT JOIN Inventory AS i ON i.InventoryID = ias.InventoryID
-                LEFT JOIN Order_has_Inventory AS ohi ON ohi.InventoryID = i.InventoryID
+                FROM mydb.Supplier AS s
+                LEFT JOIN mydb.Inventory_and_Suppliers AS ias ON s.SupplierID = ias.SupplierID
+                LEFT JOIN mydb.Inventory AS i ON i.InventoryID = ias.InventoryID
+                LEFT JOIN mydb.Order_has_Inventory AS ohi ON ohi.InventoryID = i.InventoryID
                 WHERE ohi.OrderID IS NULL
                 LIMIT 1) AS Supplier_With_Unsold_Products,
                 
                 -- Most popular selling item overall (item name and times sold)
                 (SELECT CONCAT(i.Description, ' (Sold ', COUNT(ohi.InventoryID), ' times)')
-                FROM Inventory AS i
-                INNER JOIN Order_has_Inventory AS ohi ON i.InventoryID = ohi.InventoryID
+                FROM mydb.Inventory AS i
+                INNER JOIN mydb.Order_has_Inventory AS ohi ON i.InventoryID = ohi.InventoryID
                 GROUP BY i.Description
                 ORDER BY COUNT(ohi.InventoryID) DESC 
                 LIMIT 1) AS Most_Frequently_Sold_Item,
                 
                 -- Item purchased most in a single order (item name and max quantity sold)
                 (SELECT CONCAT(i.Description, ' (Max Quantity in Single Order: ', MAX(ohi.Quantity), ')')
-                FROM Inventory AS i
-                INNER JOIN Order_has_Inventory AS ohi ON i.InventoryID = ohi.InventoryID
+                FROM mydb.Inventory AS i
+                INNER JOIN mydb.Order_has_Inventory AS ohi ON i.InventoryID = ohi.InventoryID
                 GROUP BY i.Description
                 ORDER BY MAX(ohi.Quantity) DESC 
                 LIMIT 1) AS Most_Sold_In_One_Order,
                 
                 -- Supplier who supplies the max quantity sold in a single order
                 (SELECT CONCAT(s.CompanyName, ' (Supplies: ', i.Description, ')')
-                FROM Supplier AS s
-                INNER JOIN Inventory_and_Suppliers AS ias ON s.SupplierID = ias.SupplierID
-                INNER JOIN Inventory AS i ON i.InventoryID = ias.InventoryID
-                INNER JOIN Order_has_Inventory AS ohi ON ohi.InventoryID = i.InventoryID
+                FROM mydb.Supplier AS s
+                INNER JOIN mydb.Inventory_and_Suppliers AS ias ON s.SupplierID = ias.SupplierID
+                INNER JOIN mydb.Inventory AS i ON i.InventoryID = ias.InventoryID
+                INNER JOIN mydb.Order_has_Inventory AS ohi ON ohi.InventoryID = i.InventoryID
                 GROUP BY s.CompanyName, i.Description
                 ORDER BY MAX(ohi.Quantity) DESC
                 LIMIT 1) AS Supplier_For_Most_Sold_Item_In_One_Order,
 
                 -- Product that has never sold
                 (SELECT CONCAT(i.Description, '')
-                FROM Inventory AS i
-                LEFT JOIN Order_has_Inventory AS ohi ON i.InventoryID = ohi.InventoryID
+                FROM mydb.Inventory AS i
+                LEFT JOIN mydb.Order_has_Inventory AS ohi ON i.InventoryID = ohi.InventoryID
                 WHERE ohi.InventoryID IS NULL 
                 LIMIT 1) AS Unsold_Product,
                 
                 -- Product making the most money (product name and total revenue)
                 (SELECT CONCAT(i.Description, ' (Total revenue: $', SUM(i.Price), ')')
-                FROM Inventory AS i
-                INNER JOIN Order_has_Inventory AS ohi ON i.InventoryID = ohi.InventoryID
+                FROM mydb.Inventory AS i
+                INNER JOIN mydb.Order_has_Inventory AS ohi ON i.InventoryID = ohi.InventoryID
                 GROUP BY i.Description
                 ORDER BY SUM(i.Price) DESC 
                 LIMIT 1) AS Most_Profitable_Product,
                 
                 -- Supplier who sells the highest grossing product
                 (SELECT CONCAT(s.CompanyName, ' (Highest grossing product: ', i.Description, ')')
-                FROM Supplier AS s
-                INNER JOIN Inventory_and_Suppliers AS ias ON s.SupplierID = ias.SupplierID
-                INNER JOIN Inventory AS i ON i.InventoryID = ias.InventoryID
-                INNER JOIN Order_has_Inventory AS ohi ON ohi.InventoryID = i.InventoryID
+                FROM mydb.Supplier AS s
+                INNER JOIN mydb.Inventory_and_Suppliers AS ias ON s.SupplierID = ias.SupplierID
+                INNER JOIN mydb.Inventory AS i ON i.InventoryID = ias.InventoryID
+                INNER JOIN mydb.Order_has_Inventory AS ohi ON ohi.InventoryID = i.InventoryID
                 GROUP BY s.CompanyName, i.Description
                 ORDER BY SUM(i.Price) DESC 
                 LIMIT 1) AS Supplier_For_Highest_Grossing_Product;`,
