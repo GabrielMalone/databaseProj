@@ -6,14 +6,20 @@ const app = express();
 // Serve static files from the "public" directory
 app.use(express.static('public'));
 app.use(express.json());
+// Read the CA certificate if required (you can specify the file path)
+const caCert = fs.readFileSync('path/to/ca-certificate.pem');  // Adjust with your CA cert path
 // Create a connection pool (better for multiple queries)
 const db = mysql.createPool({
-    host: 'localhost',      // Database host
-    user: 'root',           // Database username
-    password: 'Htgopb!23',  // Database password
-    database: 'mydb'        // Database name
+    host: 'mysql-152fdd39-database205.f.aivencloud.com',   // Database host
+    user: 'avnadmin',                                      // Database username
+    password: 'AVNS_Kw4b7pqVvY1n2g_MjVn',                  // Database password
+    database: 'defaultdb',                                 // Database name
+    port: 27024,                                           // Database port
+    ssl: {
+        ca: caCert,  // Specify the CA certificate for SSL
+        rejectUnauthorized: true,  // Ensures SSL verification
+    }
 });
-
 // Test the connection
 db.getConnection((err, connection) => {
     if (err) {
@@ -44,7 +50,7 @@ app.post('/api/query', (req, res) => {
 });
 
 // Start the server
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}/`);
 });
