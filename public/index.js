@@ -103,10 +103,11 @@ function show_table_data(tableName) {
     fetch('https://databaseproj.onrender.com/api/query', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
-        body: JSON.stringify(customQuery)
-    })
+        body: JSON.stringify(customQuery),
+        credentials: 'include',  // This sends cookies or authentication data with the request
+      })
     .then(response => response.json())
     .then(data => {
         console.log('Query results:', data);
