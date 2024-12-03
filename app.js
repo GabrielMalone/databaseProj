@@ -1,27 +1,32 @@
 const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
-const app = express();
 const fs = require('fs');
+const app = express();
 
 // CORS configuration for all incoming requests
-app.use(cors({
-    origin: ['https://databaseproj.onrender.com','http://localhost:3000'],  // Replace with your frontend's domain
+const corsOptions = {
+    origin: ['https://databaseproj.onrender.com', 'http://localhost:3000'], // Specify exact origins
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,  // If you're using cookies or credentials
-}));
+    credentials: true,  // Allow cookies and credentials
+};
 
+// Apply CORS globally
+app.use(cors(corsOptions));
 
-// Handle OPTIONS preflight requests for the API
-app.options('/api/query', cors());  // This will allow OPTIONS requests for /api/query
-app.options('*', cors()); 
-app.use(express.static('public'));
+// Handle OPTIONS preflight requests for /api/query
+app.options('/api/query', cors(corsOptions));  // Allow OPTIONS requests for /api/query
+// Optionally, you can handle other OPTIONS requests globally (for all routes)
+app.options('*', cors(corsOptions));
+
+// Middleware to parse JSON requests
 app.use(express.json());
 
-// Read the CA certificate if required (you can specify the file path)
-// const caCert = fs.readFileSync('path/to/ca-certificate.pem');  // Adjust with your CA cert path
+// Static file serving (if needed)
+app.use(express.static('public'));
 
+// MySQL database connection with SSL configuration
 const db = mysql.createPool({
     host: 'mysql-152fdd39-database205.f.aivencloud.com',
     user: 'avnadmin',
@@ -29,12 +34,12 @@ const db = mysql.createPool({
     database: 'defaultdb',
     port: 27024,
     ssl: {
-        ca: fs.readFileSync('cert.pem'),  // The CA cert must be correctly specified
+        ca: fs.readFileSync('cert.pem'),  // Ensure the CA certificate path is correct
         rejectUnauthorized: true,  // Ensure SSL is verified
-    }
+    },
 });
 
-// Test the connection
+// Test the database connection
 db.getConnection((err, connection) => {
     if (err) {
         console.error('Error connecting to the database:', err);
@@ -60,6 +65,10 @@ app.post('/api/query', (req, res) => {
             console.error('Query error:', err);
             return res.status(500).send('Database error');
         }
+
+        // Log headers to check if CORS headers are set
+        console.log('Response Headers:', res.getHeaders());
+
         res.setHeader('Content-Type', 'application/json'); 
         res.json(results);  // Send the query results in a structured object
     });
