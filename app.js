@@ -2,6 +2,7 @@ const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
 const app = express();
+const fs = require('fs');
 
 // CORS configuration for all incoming requests
 app.use(cors({
@@ -21,17 +22,16 @@ app.use(express.json());
 // Read the CA certificate if required (you can specify the file path)
 // const caCert = fs.readFileSync('path/to/ca-certificate.pem');  // Adjust with your CA cert path
 
-// Create a connection pool (better for multiple queries)
 const db = mysql.createPool({
-    host: 'mysql-152fdd39-database205.f.aivencloud.com',   // Database host
-    user: 'avnadmin',                                      // Database username
-    password: 'AVNS_Kw4b7pqVvY1n2g_MjVn',                  // Database password
-    database: 'defaultdb',                                 // Database name
-    port: 27024,                                           // Database port
-    // ssl: {
-    //     ca: caCert,  // Specify the CA certificate for SSL
-    //     rejectUnauthorized: true,  // Ensures SSL verification
-    // }
+    host: 'mysql-152fdd39-database205.f.aivencloud.com',
+    user: 'avnadmin',
+    password: 'AVNS_Kw4b7pqVvY1n2g_MjVn',
+    database: 'defaultdb',
+    port: 27024,
+    ssl: {
+        ca: fs.readFileSync('cert.pem'),  // The CA cert must be correctly specified
+        rejectUnauthorized: true,  // Ensure SSL is verified
+    }
 });
 
 // Test the connection
