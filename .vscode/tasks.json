@@ -1,0 +1,26 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build project",
+            "type": "shell",
+            "command": "/usr/bin/g++",
+            "args": [
+                "-o",
+                "test",
+                "main.cpp",
+                "-I/opt/homebrew/Cellar/sfml/2.6.2/include",
+                "-L/opt/homebrew/Cellar/sfml/2.6.2/lib",
+                "-lsfml-graphics",
+                "-lsfml-window",
+                "-lsfml-system"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Generated task for compiling and linking SFML project"
+        }
+    ]
+}
